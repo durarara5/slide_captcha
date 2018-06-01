@@ -9,6 +9,7 @@ from Crypto.Cipher import AES
 from binascii import b2a_hex
 from pkcs7 import PKCS7Encoder
 import random
+import os
 
 session = requests.session()
 session.headers.update({
@@ -120,13 +121,19 @@ def main():
     print(r.text)
     return "成功" in r.text
 
+def del_image():
+    for file in os.listdir() :  
+        if ".jpg" in file:  
+            os.remove(file) 
+
 if __name__ == "__main__":
     load_trace()
     success = 0
-    for i in range(100):
+    for i in range(10):
         try:
             if main():
                 success+=1
         except Exception as err:
             print("异常:%s" % err)
     print("成功率%f" % (success / 100))
+    del_image()
